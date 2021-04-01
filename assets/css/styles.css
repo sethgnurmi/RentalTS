@@ -1,0 +1,263 @@
+
+body{
+    background-color: #333333;
+    @font-face {
+        font-family: "Open Sans";
+        src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+             url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+    }
+}
+
+.modal {
+  
+    display: none;
+    pointer-events: none;
+}
+
+.dialogIsOpen #ContentWrapper {
+    -webkit-filter: blur(5px) brightness(0.4) grayscale(1);
+    -moz-filter: blur(5px) grayscale(50%);
+    -o-filter: blur(5px) grayscale(50%);
+    -ms-filter: blur(5px) grayscale(50%);
+    filter: blur(5px) brightness(0.4)  grayscale(50%);
+    opacity: 1;
+
+    pointer-events: none;
+}
+
+.dialogIsOpen .modal {
+    display: block;
+
+    pointer-events: auto;
+}
+
+header {
+    margin-top: 0px;
+}
+
+.panel-container {
+    display: flex;
+    column-gap: 10px;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 10px 0;
+    padding-bottom: 0px;
+    background-color: #dddddd;
+}
+
+.panel-container-bottom {
+    background-color: #dddddd;
+    width: auto;
+    height: 10px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.panel-header {
+    background-color: white;
+    margin: 0px;
+    padding-left: 15px;
+    height: 70px;
+    vertical-align: top
+}
+
+
+.panel-header-button {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    height: 100%;
+    padding: 15px 5px;
+}
+
+.panel-header-content {
+    display: inline;
+}
+
+.panel-header-button:hover {
+    cursor: pointer;
+    text-shadow: #aaaaaa 2px 2px 5px;
+}
+
+.panel-tile {
+    background-color: #ffffff;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modal-tile {
+    background-color: #ffffff;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 25px;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    z-index: 2;
+}
+
+.modal-close {
+    background-color:rgba(0, 0, 0, 0);
+    border-width: 0px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 30px;
+    width: 30px;
+}
+
+.modal-close > i {
+    position:absolute; 
+    top:50%; 
+    right:50%; 
+    transform: translateX(50%) translateY(-50%);
+}
+
+.panel-inner {
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: #aaaaaa;
+    width: 100%;
+    height: 100%;
+    padding: 0px 10px;
+}
+
+.panel-title {
+    position: relative;
+    width: fit-content;
+    height: 20px;
+    top: -15px;
+    left: 20px;
+    background-color: #ffffff;
+    font-size: large;
+}
+
+.panel-tile:hover {
+  box-shadow: 0px 0px 15px #888888;
+}
+
+.scrollable {
+    margin: 10px;
+    padding: 10px;
+    border: #dddddd;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: 200px;
+}
+
+.scrollable-borderless {
+    margin: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 200px;
+}
+
+.line-item-scrollable {
+    overflow-y: auto;
+    height: 200px;
+}
+
+.view-a {
+    color: #0066CC;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.view-a:hover {
+    text-decoration: underline;
+}
+
+.inline-view {
+    float: right;
+    color: #0066CC;
+    font-weight: bold;
+}
+
+.header {
+    background-color: #555555;
+    margin: 0px;
+    height: 60px;
+    padding: 15px;
+}
+
+.form-heading-lg {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 25px;
+    text-align: center
+}
+
+.form-heading-md {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 25px;
+    text-align: center
+}
+
+.measurement-inline {
+    margin-bottom: 15px;
+}
+
+.line-item-in-list {
+    background-color: #dddddd;
+    box-shadow: 0px 0px 5px #dddddd;
+    margin: 5px;
+}
+
+.line-item-detail {
+    padding: 10px 15px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-summary-line-item {
+    font-size: 14px;
+}
+
+.order-summary-p {
+    font-size: 14px;
+    padding: 5px 5px;
+}
+
+.set-center {
+    position:absolute; 
+    top:50%; 
+    right:50%; 
+    transform: translateX(50%) translateY(-50%);
+}
+
+.disabled-checkbox{
+    pointer-events: none;
+}
+
+.panel-card-container {
+    margin: 0 0 50px 0 ;
+    padding: 10px 0 0 10px;
+    background-color: #dddddd;
+}
+
+.panel-card-outer {
+    background-color: #dddddd;
+    padding: 0 10px 10px 0;
+}
+
+.panel-card {
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+.panel-card:hover {
+  box-shadow: 0px 0px 15px #888888;
+}
+
+.modal .pf-c-form-control{
+  margin: 10px;
+}
+

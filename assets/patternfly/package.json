@@ -1,0 +1,16 @@
+{
+  "name": "patternfly",
+  "version": "1.0.0",
+  "description": "PatternFly4 css assets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "-": "0.0.1",
+    "@patternfly/patternfly": "^4.87.3",
+    "save": "^2.4.0"
+  }
+}
