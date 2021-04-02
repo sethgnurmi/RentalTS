@@ -17,37 +17,38 @@
 
   <div class="container" id="ContentWrapper">
 
-    <form action="http://localhost/RentalTS/Products/Type" id="ProductTypeForm" method="post" accept-charset="utf-8">
-    <input type="hidden" id="ProductTypeId" name="ProductTypeId" value="<?=$ProductType['ProductTypeId']?>">
-    <input type="hidden" id="MeasurementDefaultsId" name="MeasurementDefaultsId" value="<?=$ProductType['MeasurementDefaultsId']?>">
+    <form action="http://localhost/RentalTS/Stock/New" id="StockItemForm" method="post" accept-charset="utf-8">
+    <input type="hidden" id="StockItemId" name="StockItemId" value="<?=$StockItem['StockItemId']?>">
     <div class="row">
       <div class="col-sm-12">
         <div class="row panel-header">
           <div class="panel-header-button" onclick="window.location='<?=base_url();?>Staff'">Staff Dashboard</div>
           <i class="fas fa-angle-right fa-1x"></i>
-          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Products'">Products</div>
+          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Stock'">Stock</div>
           <i class="fas fa-angle-right fa-1x"></i>
-          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Products/Types'">Product Types</div>
-          <i class="fas fa-angle-right fa-1x"></i>
-          <? if($ProductType['ProductTypeId'] <= 0){?>
-          <div class="panel-header-button">New Product Type</div>
+          <? if($StockItem['StockItemId'] <= 0){?>
+          <div class="panel-header-button">New Stock Item</div>
           <?}else{?>
-          <div class="panel-header-button"><?=$ProductType['ProductTypeName'];?></div>
+          <div class="panel-header-button">Stock Item #<?=$StockItem['StockItemId'];?></div>
           <?}?>
 
         </div>
 
         <div class="row panel-container">
-          <div class="col-sm-6 panel-tile" id="ProductInfo">
+          <div class="col-sm-6 panel-tile" id="StockItemInfo">
             <div class="row">
               <div class="col-sm-12">
-                <p class="form-heading-lg">Product Type</p>
+                <p class="form-heading-lg">Stock Item</p>
                 <div class="pf-c-divider" role="separator"></div>
                 <br>
               </div>
-              <div class="col-sm-12">
-                <label for="ProductTypeName">Product Type:</label>
+              <div class="col-sm-6">
+                <label for="ProductTypeName">Product:</label>
                 <input class="pf-c-form-control" type="text" id="ProductTypeName" name="ProductTypeName" placeholder="Product Type" value="<?=$ProductType['ProductTypeName'];?>"/>
+              </div>
+              <div class="col-sm-6">
+                <label for="ProductPurchasePrice">Stock Quantity:</label>
+                <input class="pf-c-form-control" type="number" id="ProductPurchasePrice" name="ProductPurchasePrice" value="<?=$Product['ProductPurchasePrice'];?>"/>
               </div>
             </div>
           </div>
@@ -61,37 +62,37 @@
               </div>
               <div class="col-sm-4">
                 <center>
-                  <input type="checkbox" id="MeasurementHeight" name="MeasurementHeight" <? if($ProductType['MeasurementHeight'] == 1){echo "checked";}?>>
+                  <input type="checkbox" id="MeasurementHeight" name="MeasurementHeight">
                   <label for="MeasurementHeight">Height</label>
                 </center>
               </div>
               <div class="col-sm-4">
                 <center>
-                <input type="checkbox" id="MeasurementWaist" name="MeasurementWaist" <? if($ProductType['MeasurementWaist'] == 1){echo "checked";}?>>
+                <input type="checkbox" id="MeasurementWaist" name="MeasurementWaist">
                 <label for="MeasurementWaist">Waist</label>
                 </center>
               </div>
               <div class="col-sm-4">
                 <center>
-                <input type="checkbox" id="MeasurementChest" name="MeasurementChest" <? if($ProductType['MeasurementChest'] == 1){echo "checked";}?>>
+                <input type="checkbox" id="MeasurementChest" name="MeasurementChest">
                 <label for="MeasurementChest">Chest</label>
                 </center>
               </div>
               <div class="col-sm-4">
                 <center>
-                <input type="checkbox" id="MeasurementLength" name="MeasurementLength" <? if($ProductType['MeasurementLength'] == 1){echo "checked";}?>>
+                <input type="checkbox" id="MeasurementLength" name="MeasurementLength">
                 <label for="MeasurementLength">Length</label>
                 </center>
               </div>
               <div class="col-sm-4">
                 <center>
-                <input type="checkbox" id="MeasurementOutseam" name="MeasurementOutseam" <? if($ProductType['MeasurementOutseam'] == 1){echo "checked";}?>>
+                <input type="checkbox" id="MeasurementOutseam" name="MeasurementOutseam">
                 <label for="MeasurementOutseam">Outseam</label>
                 </center>
               </div>
               <div class="col-sm-4">
                 <center>
-                <input type="checkbox" id="MeasurementInseam" name="MeasurementInseam" <? if($ProductType['MeasurementInseam'] == 1){echo "checked";}?>>
+                <input type="checkbox" id="MeasurementInseam" name="MeasurementInseam">
                 <label for="MeasurementInseam">Inseam</label>
                 </center>
               </div>

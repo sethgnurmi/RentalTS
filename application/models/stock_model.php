@@ -1,9 +1,26 @@
 <?php
-class product_model extends CI_Model {
+class stock_model extends CI_Model {
 
     /////////////////////
     /*  Get Functions  */
     /////////////////////
+
+    public function getStockItem($id)
+    {
+        return $this->db->select('*')->from('stock_items')
+            ->where('stock_item_id', $id)
+            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
+            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
+            ->get()->result_array();
+    }
+
+    public function getStockItemList()
+    {
+        return $this->db->select('*')->from('stock_items')
+            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
+            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
+            ->get()->result_array();
+    }
 
     public function getProduct($id)
     {
@@ -12,10 +29,7 @@ class product_model extends CI_Model {
 
     public function getProductType($id)
     {
-        return $this->db->select('*')->from('product_types')
-            ->where('product_type_id', $id)
-            ->join('measurement_defaults', 'measurement_defaults.measurement_defaults_id = product_types.measurement_defaults_id')
-            ->get()->result_array()[0];
+        return $this->db->where('product_type_id', $id)->get('product_types')->result_array()[0];
     }
 
     public function getProductTypeList()
@@ -33,11 +47,6 @@ class product_model extends CI_Model {
     public function getProductsByType($type)
     {
         return $this->db->where('product_type', $type)->get('products')->result_array();
-    }
-
-    public function getMeasurementDefaults($id)
-    {
-        return $this->db->where('measurement_defaults_id', $id)->get('measurement_defaults')->result_array()[0];
     }
 
     ////////////////////////
@@ -88,30 +97,6 @@ class product_model extends CI_Model {
             $this->db->insert('product_types', $data);
             return $this->db->insert_id();
         }
-    }
-
-    public function updateMeasurementDefaults($data)
-    {
-        $measurement_defaults_id = -1;
-
-        if(isset($data['measurement_defaults_id']))
-        {
-            $measurement_defaults_id = $data['measurement_defaults_id'];
-            unset($data['measurement_defaults_id']);
-        }
-
-        if($measurement_defaults_id > 0)
-        {
-            $this->db->where('measurement_defaults_id', $measurement_defaults_id);
-            $this->db->update('measurement_defaults', $data);
-            return $measurement_defaults_id;
-        }
-        else
-        {
-            $this->db->insert('measurement_defaults', $data);
-            return $this->db->insert_id();
-        }
-
     }
 
     ////////////////////////

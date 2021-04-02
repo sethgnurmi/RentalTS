@@ -25,30 +25,14 @@
         <div class="panel-title">Actor Measurements</div>
         <div class="scrollable-borderless" style="height:80%;">
           <div id="ActorMeasurementsInputs">
+          
+            <? foreach($MeasurementList as $key=>$val){?>
             <div class="col-sm-6">
-              <label for="MeasurementHeight">Height: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementHeight" value="<?=$Measurements['height']?>" readonly/>
+              <label for="Measurement<?=$val?>"><?=$val?>: </label>
+              <input class="pf-c-form-control" type="text" name="Measurement<?=$val?>" value="<?=$Measurements[$key]?>" readonly/>
             </div>
-            <div class="col-sm-6">
-              <label for="MeasurementWaist">Waist: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementWaist" value="<?=$Measurements['waist']?>" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementChest">Chest: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementChest"value="<?=$Measurements['chest']?>" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementLength">Length: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementLength" value="<?=$Measurements['length']?>" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementOutseam">Outseam: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementOutseam" value="<?=$Measurements['outseam']?>" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementInseam">Inseam: </label>
-              <input class="pf-c-form-control" type="text" name="MeasurementInseam" value="<?=$Measurements['inseam']?>" readonly/>
-            </div>
+            <?}?>
+            
             <div class="col-sm-12">
               <label for="MeasurementAlterations">Alterations/Notes:</label>
               <textarea class="pf-c-form-control" name="MeasurementAlterations" style="max-width: 100%; min-width: 100%; height:75px;" readonly><?=$Measurements['alterations']?></textarea>
@@ -67,30 +51,14 @@
         <div class="panel-title">Line Item Measurements</div>
         <div class="scrollable-borderless" style="height:80%;">
           <div id="LineItemMeasurementsModalInputs">
-            <div class="col-sm-6">
-              <label for="MeasurementHeightModal">Height: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementHeightModal" readonly/>
+          
+            <? foreach($MeasurementList as $key=>$val){?>
+            <div class="col-sm-6 <?=$key?>MeasurementDisplay MeasurementDisplay">
+              <label for="Measurement<?=$val?>Modal"><?=$val?>: </label>
+              <input class="pf-c-form-control" type="text" id="Measurement<?=$val?>Modal" readonly/>
             </div>
-            <div class="col-sm-6">
-              <label for="MeasurementWaistModal">Waist: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementWaistModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementChestModal">Chest: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementChestModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementLengthModal">Length: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementLengthModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementOutseamModal">Outseam: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementOutseamModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementInseamModal">Inseam: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementInseamModal" readonly/>
-            </div>
+            <?}?>
+            
             <div class="col-sm-12">
               <label for="MeasurementAlterationsModal">Alterations/Notes:</label>
               <textarea class="pf-c-form-control" id="MeasurementAlterationsModal" style="max-width: 100%; min-width: 100%; height:75px;" readonly></textarea>
@@ -147,30 +115,13 @@
                 <div class="pf-c-divider" role="separator"></div>
             </div>
 
-            <div class="col-sm-6">
-              <label for="MeasurementHeightDetailsModal">Height: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementHeightDetailsModal" readonly/>
+            <? foreach($MeasurementList as $key=>$val){?>
+            <div class="col-sm-6 <?=$key?>MeasurementDisplay MeasurementDisplay">
+              <label for="Measurement<?=$val?>DetailsModal"><?=$val?>: </label>
+              <input class="pf-c-form-control" type="text" id="Measurement<?=$val?>DetailsModal" readonly/>
             </div>
-            <div class="col-sm-6">
-              <label for="MeasurementWaistDetailsModal">Waist: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementWaistDetailsModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementChestDetailsModal">Chest: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementChestDetailsModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementLengthDetailsModal">Length: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementLengthDetailsModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementOutseamDetailsModal">Outseam: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementOutseamDetailsModal" readonly/>
-            </div>
-            <div class="col-sm-6">
-              <label for="MeasurementInseamDetailsModal">Inseam: </label>
-              <input class="pf-c-form-control" type="text" id="MeasurementInseamDetailsModal" readonly/>
-            </div>
+            <?}?>
+            
             <div class="col-sm-12">
               <label for="MeasurementAlterationsDetailsModal">Alterations/Notes:</label>
               <textarea class="pf-c-form-control" id="MeasurementAlterationsDetailsModal" style="max-width: 100%; min-width: 100%; height:75px;" readonly></textarea>
@@ -342,30 +293,14 @@
                       <label>Measurements:</label>
                       <div class="scrollable" style="height:400px">
                         <div id="LineItemMeasurementsInputs">
-                          <div class="col-sm-6">
-                            <label for="MeasurementHeight">Height: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementHeight" value="<?=$Measurements['height']?>" readonly/>
+                        
+                          <? foreach($MeasurementList as $key=>$val){?>
+                          <div class="col-sm-6 <?=$key?>MeasurementInput MeasurementInput">
+                            <label for="Measurement<?=$val?>"><?=$val?>: </label>
+                            <input class="pf-c-form-control" type="text" name="Measurement<?=$val?>" value="<?=$Measurements[$key]?>" readonly/>
                           </div>
-                          <div class="col-sm-6">
-                            <label for="MeasurementWaist">Waist: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementWaist" value="<?=$Measurements['waist']?>" readonly/>
-                          </div>
-                          <div class="col-sm-6">
-                            <label for="MeasurementChest">Chest: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementChest"value="<?=$Measurements['chest']?>" readonly/>
-                          </div>
-                          <div class="col-sm-6">
-                            <label for="MeasurementLength">Length: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementLength" value="<?=$Measurements['length']?>" readonly/>
-                          </div>
-                          <div class="col-sm-6">
-                            <label for="MeasurementOutseam">Outseam: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementOutseam" value="<?=$Measurements['outseam']?>" readonly/>
-                          </div>
-                          <div class="col-sm-6">
-                            <label for="MeasurementInseam">Inseam: </label>
-                            <input class="pf-c-form-control" type="text" name="MeasurementInseam" value="<?=$Measurements['inseam']?>" readonly/>
-                          </div>
+                          <?}?>
+                          
                           <div class="col-sm-12">
                             <label for="MeasurementAlterations">Alterations/Notes:</label>
                             <textarea class="pf-c-form-control" name="MeasurementAlterations" style="max-width: 100%; min-width: 100%; height:75px;" readonly><?=$Measurements['alterations']?></textarea>
@@ -420,19 +355,33 @@
 
     function updateProductInfo()
     {
+
       $.ajax({
         url: '<?=base_url();?>Staff/getProductsByType',
         method: 'POST',
         data: {'product_type': $('#LineItemType').val()},
         success: 
           function(data){
-            console.log(JSON.parse(data));
+            data = JSON.parse(data);
+            
             $('#LineItemProduct').html('');
-            $.each(JSON.parse(data), function(key, product){
-              $('#LineItemProduct').append(
-                '<option value="' + product['product_id'] + '" data-rental="' + product['rental_price'] + '" data-purchase="' + product['purchase_price'] + '">' + product['product_name'] + '</option>'
-                );
+            $.each(data, function(key, product){
+              if(key != 'MeasurementDefaults')
+              {
+                $('#LineItemProduct').append(
+                  '<option value="' + product['product_id'] + '" data-rental="' + product['rental_price'] + '" data-purchase="' + product['purchase_price'] + '">' + product['product_name'] + '</option>'
+                  );
+              }
             });
+
+            $('.MeasurementInput').show();
+            $.each(data['MeasurementDefaults'], function(key, val){
+              if(val != 1)
+                $('.' + key + 'MeasurementInput').hide();
+            });
+            
+
+
 
             var price = 0;
             if($('#LineItemPurchase').is(':checked'))
@@ -447,6 +396,8 @@
             $('#ItemCost').html('Item Cost : $' + parseFloat(price).toFixed(2));
             
             $('#LineItemProduct').attr('disabled', false);
+
+
           },
         error: 
           function(data){
@@ -464,6 +415,7 @@
     $(document).on('click','.viewLineItemMeasurementsButton', function(){
       var id = $(this).parents('.line-item-in-list').data('id');
       $('#LineItemMeasurementsModalInputs').find('.pf-c-form-control').val('');
+      $('.MeasurementDisplay').show();
 
 
       $.ajax({
@@ -472,15 +424,23 @@
         data: {'line_item_id': id},
         success: 
           function(data){
-            data = JSON.parse(data)[0];
+            console.log(data);
+            data = JSON.parse(data);
+            console.log(data);
             
-            $('#MeasurementHeightModal').val(data['height']);
-            $('#MeasurementWaistModal').val(data['waist']);
-            $('#MeasurementChestModal').val(data['chest']);
-            $('#MeasurementLengthModal').val(data['length']);
-            $('#MeasurementOutseamModal').val(data['outseam']);
-            $('#MeasurementInseamModal').val(data['inseam']);
-            $('#MeasurementInseamModal').val(data['inseam']);
+            <? foreach($MeasurementList as $key=>$val){?>
+            $('#Measurement<?=$val?>Modal').val(data['<?=$key?>']);
+            <?}?>
+            
+
+            $.each(data['MeasurementDefaults'], function(key, val){
+              if(val != 1)
+                $('.' + key + 'MeasurementDisplay').hide();
+            });
+
+
+
+
             $('#MeasurementAlterationsModal').val(data['alterations']);
 
           },
@@ -498,6 +458,7 @@
     $(document).on('click','.viewCompleteDetailsButton', function(){
       var id = $(this).parents('.line-item-in-list').data('id');
       $('#LineItemDetailsModalInputs').find('.pf-c-form-control').val('');
+      $('.MeasurementDisplay').show();
 
 
       $.ajax({
@@ -506,7 +467,7 @@
         data: {'line_item_id': id},
         success: 
           function(data){
-            data = JSON.parse(data)[0];
+            data = JSON.parse(data);
             
             $('#ProductTypeDetailsModal').val(data['product_type']);
             $('#ProductNameDetailsModal').val(data['product_name']);
@@ -518,12 +479,15 @@
             $('#PriceDetailsModal').val((data['purchase'] == 0 ? '$' + parseFloat(data['rental_price']).toFixed(2) : '$' + parseFloat(data['purchase_price']).toFixed(2)));
 
 
-            $('#MeasurementHeightDetailsModal').val(data['height']);
-            $('#MeasurementWaistDetailsModal').val(data['waist']);
-            $('#MeasurementChestDetailsModal').val(data['chest']);
-            $('#MeasurementLengthDetailsModal').val(data['length']);
-            $('#MeasurementOutseamDetailsModal').val(data['outseam']);
-            $('#MeasurementInseamDetailsModal').val(data['inseam']);
+            <? foreach($MeasurementList as $key=>$val){?>
+            $('#Measurement<?=$val?>DetailsModal').val(data['<?=$key?>']);
+            <?}?>
+
+            $.each(data['MeasurementDefaults'], function(key, val){
+              if(val != 1)
+                $('.' + key + 'MeasurementDisplay').hide();
+            });
+            
             $('#MeasurementAlterationsDetailsModal').val(data['alterations']);
           },
         error: 

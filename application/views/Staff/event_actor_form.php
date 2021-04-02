@@ -47,34 +47,18 @@
                   <div class="pf-c-divider" role="separator"></div>
               </div>
 
+              <? foreach($MeasurementList as $key=>$val){?>
               <div class="col-sm-6">
-                <label for="MeasurementHeightDetailsModal">Height: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementHeightDetailsModal" readonly/>
+                <label for="Measurement<?=$val?>DetailsModal"><?=$val?>: </label>
+                <input class="pf-c-form-control" type="text" id="Measurement<?=$val?>DetailsModal" readonly/>
               </div>
-              <div class="col-sm-6">
-                <label for="MeasurementWaistDetailsModal">Waist: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementWaistDetailsModal" readonly/>
-              </div>
-              <div class="col-sm-6">
-                <label for="MeasurementChestDetailsModal">Chest: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementChestDetailsModal" readonly/>
-              </div>
-              <div class="col-sm-6">
-                <label for="MeasurementLengthDetailsModal">Length: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementLengthDetailsModal" readonly/>
-              </div>
-              <div class="col-sm-6">
-                <label for="MeasurementOutseamDetailsModal">Outseam: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementOutseamDetailsModal" readonly/>
-              </div>
-              <div class="col-sm-6">
-                <label for="MeasurementInseamDetailsModal">Inseam: </label>
-                <input class="pf-c-form-control" type="text" id="MeasurementInseamDetailsModal" readonly/>
-              </div>
+              <?}?>
+              
               <div class="col-sm-12">
                 <label for="MeasurementAlterationsDetailsModal">Alterations/Notes:</label>
                 <textarea class="pf-c-form-control" id="MeasurementAlterationsDetailsModal" style="max-width: 100%; min-width: 100%; height:75px;" readonly></textarea>
               </div>
+
             </div>
           </div>
         </div>
@@ -189,30 +173,14 @@
                     <div class="col-sm-12">
                       <label>Measurements:</label>
                       <div class="scrollable" style="height:400px">
+                      
+                        <? foreach($MeasurementList as $key=>$val){?>
                         <div class="col-sm-6">
-                          <label for="MeasurementHeight">Height: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementHeight" name="MeasurementHeight"/>
+                          <label for="Measurement<?=$val?>"><?=$val?>: </label>
+                          <input class="pf-c-form-control" type="text" id="Measurement<?=$val?>" name="Measurement<?=$val?>"/>
                         </div>
-                        <div class="col-sm-6">
-                          <label for="MeasurementWaist">Waist: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementWaist" name="MeasurementWaist"/>
-                        </div>
-                        <div class="col-sm-6">
-                          <label for="MeasurementChest">Chest: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementChest" name="MeasurementChest"/>
-                        </div>
-                        <div class="col-sm-6">
-                          <label for="MeasurementLength">Length: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementLength" name="MeasurementLength"/>
-                        </div>
-                        <div class="col-sm-6">
-                          <label for="MeasurementOutseam">Outseam: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementOutseam" name="MeasurementOutseam"/>
-                        </div>
-                        <div class="col-sm-6">
-                          <label for="MeasurementInseam">Inseam: </label>
-                          <input class="pf-c-form-control" type="text" id="MeasurementInseam" name="MeasurementInseam"/>
-                        </div>
+                        <?}?>
+                        
                         <div class="col-sm-12">
                           <label for="MeasurementAlterations">Alterations/Notes:</label>
                           <textarea class="pf-c-form-control" style="height:75px;" id="MeasurementAlterations" name="MeasurementAlterations"></textarea>
@@ -268,16 +236,13 @@
         success: 
           function(data){
             data = JSON.parse(data);
-            console.log(data);
             $('#ActorNameModal').val(data['actor_name']);
             $('#ActorRoleModal').val(data['actor_role']);
 
-            $('#MeasurementHeightDetailsModal').val(data['height']);
-            $('#MeasurementWaistDetailsModal').val(data['waist']);
-            $('#MeasurementChestDetailsModal').val(data['chest']);
-            $('#MeasurementLengthDetailsModal').val(data['length']);
-            $('#MeasurementOutseamDetailsModal').val(data['outseam']);
-            $('#MeasurementInseamDetailsModal').val(data['inseam']);
+            <? foreach($MeasurementList as $key=>$val){?>
+            $('#Measurement<?=$val?>DetailsModal').val(data['<?=$key?>']);
+            <?}?>
+            
             $('#MeasurementAlterationsDetailsModal').val(data['alterations']);
 
           },

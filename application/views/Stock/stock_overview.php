@@ -32,13 +32,13 @@
         </div>
 
         <div class="row panel-card-container">
-          <? foreach($StockList as $key => $StockItem){ ?>
+          <? foreach($StockItemList as $key => $StockItem){ ?>
           <div class="col-sm-3 panel-card-outer">
             <div class="panel-card">
-              <h4><strong>Stock Item #<?=$StockItem['product_id']?></strong><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Stock/Item/<?=$StockItem['stock_item_id']?>'">View</a></h4>
+              <h4><strong>Stock Item #<?=$StockItem['stock_item_id']?></strong><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Stock/Item/<?=$StockItem['stock_item_id']?>'">View</a></h4>
               <div class="pf-c-divider" role="separator" style="margin-top:10px;"></div>
-              <p class="order-summary-p"><b><?=$Product['product_type'];?></b></p>
-              <p class="order-summary-p"><b><?=$Product['product_name'];?></b></p>
+              <p class="order-summary-p"><b><?=$StockItem['product_type'];?></b></p>
+              <p class="order-summary-p"><b><?=$StockItem['product_name'];?></b></p>
               <br>
             </div>
           </div>

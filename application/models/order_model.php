@@ -130,7 +130,7 @@ class order_model extends CI_Model {
             ->join('products', 'products.product_id = line_items.product', 'inner')
             ->join('product_types', 'product_types.product_type_id = products.product_type', 'inner')
             ->join('measurements', 'measurements.measurement_id = line_items.measurements', 'inner')
-            ->where('line_item_id', $id)->get()->result_array();
+            ->where('line_item_id', $id)->get()->result_array()[0];
 
     }
 
@@ -141,6 +141,25 @@ class order_model extends CI_Model {
             ->join('product_types', 'product_types.product_type_id = products.product_type', 'inner')
             ->join('measurements', 'measurements.measurement_id = line_items.measurements', 'inner')
             ->where('order_id', $order)->get()->result_array();
+    }
+
+    public function getMeasurementColumns()
+    {
+        $measurementColumns = $this->db->field_data('measurements');
+        $measurementList = array();
+        foreach($measurementColumns as $key=>$val)
+        {
+            if(!$val->primary_key && !strcasecmp($val->name, 'alterations') == 0)
+                $measurementList[$val->name] = ucwords($val->name);
+        }
+        return $measurementList;
+    }
+
+    public function getMeasurementDefaultsFromProductType($product_type_id)
+    {
+        $measurement_defaults_id = $this->db->where('product_type_id', $product_type_id)->get('product_types')->result_array()[0]['measurement_defaults_id'];
+
+        return $this->db->where('measurement_defaults_id', $measurement_defaults_id)->get('measurement_defaults')->result_array()[0];
     }
 
     ////////////////////////

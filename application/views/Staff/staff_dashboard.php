@@ -32,7 +32,7 @@
               <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href=""><center><i class="bi bi-inboxes-fill"></i> Order Fulfillment</a></center></div>
               <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href=""><center><i class="bi bi-tools"></i> Alteration Requests</a></center></div>
               <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href=""><center><i class="bi bi-envelope-open-fill"></i> Order Shipping</a></center></div>
-              <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href=""><center><i class="bi bi-tags-fill"></i> Manage Stock</a></center></div>
+              <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href="Stock"><center><i class="bi bi-tags-fill"></i> Manage Stock</a></center></div>
               <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href="Products"><center><i class="bi bi-archive-fill"></i> Manage Products</a></center></div>
               <div class="col-sm-4" style="margin-bottom:20px;"><a class="view-a" href=""><center><i class="bi bi-handbag-fill"></i> Returns</a></center></div>
             </div>

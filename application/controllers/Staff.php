@@ -116,6 +116,7 @@ class Staff extends CI_Controller {
 		if($this->input->post() && $this->input->post('product_type'))
 		{
 			$productList = $this->order_model->getProductsByType($this->input->post('product_type'));
+			$productList['MeasurementDefaults'] = $this->order_model->getMeasurementDefaultsFromProductType($this->input->post('product_type'));
 			echo json_encode($productList);
 		}
 	}
@@ -125,6 +126,7 @@ class Staff extends CI_Controller {
 		if($this->input->post() && $this->input->post('line_item_id'))
 		{
 			$lineItem = $this->order_model->getLineItem($this->input->post('line_item_id'));
+			$lineItem['MeasurementDefaults'] = $this->order_model->getMeasurementDefaultsFromProductType($lineItem['product_type_id']);
 			echo json_encode($lineItem);
 		}
 
@@ -305,9 +307,6 @@ class Staff extends CI_Controller {
 
 			if($this->input->post())
 			{
-				echo "<pre>";
-				echo print_r($this->input->post());
-				echo "</pre>";
 
 				$data = $this->input->post();
 				if(isset($data['DeleteLineItemInput']))
@@ -317,12 +316,13 @@ class Staff extends CI_Controller {
 				else
 				{
 					$measurements = array();
-					$measurements['height'] = $data['MeasurementHeight'];
-					$measurements['waist'] = $data['MeasurementWaist'];
-					$measurements['chest'] = $data['MeasurementChest'];
-					$measurements['length'] = $data['MeasurementLength'];
-					$measurements['outseam'] = $data['MeasurementOutseam'];
-					$measurements['inseam'] = $data['MeasurementInseam'];
+
+					$measurementList = $this->order_model->getMeasurementColumns();
+					foreach($measurementList as $key=>$val)
+					{
+						$measurements[$key] = $data['Measurement'.$val];
+					}
+
 					$measurements['alterations'] = $data['MeasurementAlterations'];
 		
 					$measurements_id = $this->order_model->update_measurements($measurements);
@@ -348,6 +348,8 @@ class Staff extends CI_Controller {
 			$this->data['Measurements'] = $measurements;
 			$this->data['ProductTypes'] = $this->order_model->getProductTypeList();
 			$this->data['LineItemsList'] = $this->order_model->getLineItemsList($actor['actor_id']);
+			$this->data['MeasurementList'] = $this->order_model->getMeasurementColumns();
+
 		}
 
 
@@ -362,9 +364,6 @@ class Staff extends CI_Controller {
 
 			if($this->input->post())
 			{
-				echo "<pre>";
-				echo print_r($this->input->post());
-				echo "</pre>";
 
 				$data = $this->input->post();
 				if(isset($data['DeleteActorInput']))
@@ -374,12 +373,13 @@ class Staff extends CI_Controller {
 				else
 				{
 					$measurements = array();
-					$measurements['height'] = $data['MeasurementHeight'];
-					$measurements['waist'] = $data['MeasurementWaist'];
-					$measurements['chest'] = $data['MeasurementChest'];
-					$measurements['length'] = $data['MeasurementLength'];
-					$measurements['outseam'] = $data['MeasurementOutseam'];
-					$measurements['inseam'] = $data['MeasurementInseam'];
+
+					$measurementList = $this->order_model->getMeasurementColumns();
+					foreach($measurementList as $key=>$val)
+					{
+						$measurements[$key] = $data['Measurement'.$val];
+					}
+
 					$measurements['alterations'] = $data['MeasurementAlterations'];
 		
 					$measurements_id = $this->order_model->update_measurements($measurements);
@@ -397,6 +397,7 @@ class Staff extends CI_Controller {
 
 			$this->data['Event'] = $this->order_model->getEvent($EVENT_ID);
 			$this->data['ActorsList'] = $this->order_model->getActorsList($EVENT_ID);
+			$this->data['MeasurementList'] = $this->order_model->getMeasurementColumns();
 		}
 
 
