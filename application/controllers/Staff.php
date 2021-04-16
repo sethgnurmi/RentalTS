@@ -188,9 +188,6 @@ class Staff extends CI_Controller {
 		if($this->input->post())
 		{
 			$data = $this->input->post();
-			echo "<pre>";
-			echo print_r($this->input->post());
-			echo "</pre>";
 			
 			///////////////////
 			/*  Emptor Data  */

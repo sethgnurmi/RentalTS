@@ -59,42 +59,15 @@
                 <div class="pf-c-divider" role="separator"></div>
                 <br>
               </div>
+
+              <? foreach($MeasurementList as $key=>$val){ ?>
               <div class="col-sm-4">
                 <center>
-                  <input type="checkbox" id="MeasurementHeight" name="MeasurementHeight" <? if($ProductType['MeasurementHeight'] == 1){echo "checked";}?>>
-                  <label for="MeasurementHeight">Height</label>
+                  <input type="checkbox" id="Measurement<?=$val?>" name="Measurement<?=$val?>" <? if($ProductType['Measurement'.$val] == 1){echo "checked";}?>>
+                  <label for="Measurement<?=$val?>"><?=$val?></label>
                 </center>
               </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementWaist" name="MeasurementWaist" <? if($ProductType['MeasurementWaist'] == 1){echo "checked";}?>>
-                <label for="MeasurementWaist">Waist</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementChest" name="MeasurementChest" <? if($ProductType['MeasurementChest'] == 1){echo "checked";}?>>
-                <label for="MeasurementChest">Chest</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementLength" name="MeasurementLength" <? if($ProductType['MeasurementLength'] == 1){echo "checked";}?>>
-                <label for="MeasurementLength">Length</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementOutseam" name="MeasurementOutseam" <? if($ProductType['MeasurementOutseam'] == 1){echo "checked";}?>>
-                <label for="MeasurementOutseam">Outseam</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementInseam" name="MeasurementInseam" <? if($ProductType['MeasurementInseam'] == 1){echo "checked";}?>>
-                <label for="MeasurementInseam">Inseam</label>
-                </center>
-              </div>
+              <?}?>
             </div>
           </div>
         </div>

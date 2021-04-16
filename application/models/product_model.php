@@ -40,6 +40,18 @@ class product_model extends CI_Model {
         return $this->db->where('measurement_defaults_id', $id)->get('measurement_defaults')->result_array()[0];
     }
 
+    public function getMeasurementColumns()
+    {
+        $measurementColumns = $this->db->field_data('measurements');
+        $measurementList = array();
+        foreach($measurementColumns as $key=>$val)
+        {
+            if(!$val->primary_key && !strcasecmp($val->name, 'alterations') == 0)
+                $measurementList[$val->name] = ucwords($val->name);
+        }
+        return $measurementList;
+    }
+
     ////////////////////////
     /*  Update Functions  */
     ////////////////////////

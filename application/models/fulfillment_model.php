@@ -1,5 +1,5 @@
 <?php
-class stock_model extends CI_Model {
+class fulfillment_model extends CI_Model {
 
     /////////////////////
     /*  Get Functions  */
@@ -76,6 +76,23 @@ class stock_model extends CI_Model {
     public function getConditionList()
     {
         return $this->db->get('conditions')->result_array();
+    }
+
+    public function getOrderList($event=false)
+    {
+        if(!$event)
+        {
+            return $this->db->select('*')->from('actors')
+                ->join('order_events', 'order_events.event_id = actors.event_id', 'inner')
+                ->get()->result_array();
+        }
+        else
+        {
+            return $this->db->select('*')->from('actors')
+                ->where('event_id', $event)
+                ->join('order_events', 'order_events.event_id = actors.event_id', 'inner')
+                ->get()->result_array();
+        }
     }
 
     ////////////////////////

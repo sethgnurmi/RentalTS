@@ -49,12 +49,12 @@ class Products extends CI_Controller {
 			$Product['ProductTypeId'] = "-1";
 			$Product['ProductTypeName'] = "";
 			$Product['MeasurementDefaultsId'] = "-1";
-			$Product['MeasurementHeight'] = "";
-			$Product['MeasurementWaist'] = "";
-			$Product['MeasurementChest'] = "";
-			$Product['MeasurementLength'] = "";
-			$Product['MeasurementInseam'] = "";
-			$Product['MeasurementOutseam'] = "";
+			
+			$measurementList = $this->product_model->getMeasurementColumns();
+			foreach($measurementList as $key=>$val)
+			{
+				$Product['Measurement'.$val] = "";
+			}
 		}
 		else
 		{
@@ -62,12 +62,12 @@ class Products extends CI_Controller {
 			$Product['ProductTypeId'] = $data['product_type_id'];
 			$Product['ProductTypeName'] = $data['product_type'];
 			$Product['MeasurementDefaultsId'] = $data['measurement_defaults_id'];
-			$Product['MeasurementHeight'] = $data['height'];
-			$Product['MeasurementWaist'] = $data['waist'];
-			$Product['MeasurementChest'] = $data['chest'];
-			$Product['MeasurementLength'] = $data['length'];
-			$Product['MeasurementInseam'] = $data['inseam'];
-			$Product['MeasurementOutseam'] = $data['outseam'];
+
+			$measurementList = $this->product_model->getMeasurementColumns();
+			foreach($measurementList as $key=>$val)
+			{
+				$Product['Measurement'.$val] = $data[$key];
+			}
 		}
 
 		return $Product;
@@ -112,6 +112,7 @@ class Products extends CI_Controller {
 	
 			$this->data['Product'] = $this->getProductPresets();
 			$this->data['ProductTypeList'] = $this->product_model->getProductTypeList();
+			$this->data['MeasurementList'] = $this->product_model->getMeasurementColumns();
 	
 			$this->load->view('Product/product_form', $this->data);
 		}
@@ -151,12 +152,12 @@ class Products extends CI_Controller {
 
 			$measurement_defaults = array();
 			$measurement_defaults['measurement_defaults_id'] = $data['MeasurementDefaultsId'];
-			$measurement_defaults['height'] = isset($data['MeasurementHeight']);
-			$measurement_defaults['waist'] = isset($data['MeasurementWaist']);
-			$measurement_defaults['chest'] = isset($data['MeasurementChest']);
-			$measurement_defaults['length'] = isset($data['MeasurementLength']);
-			$measurement_defaults['inseam'] = isset($data['MeasurementInseam']);
-			$measurement_defaults['outseam'] = isset($data['MeasurementOutseam']);
+			
+			$measurementList = $this->product_model->getMeasurementColumns();
+			foreach($measurementList as $key=>$val)
+			{
+				$measurement_defaults[$key] = isset($data['Measurement'.$val]);
+			}
 
 			$measurement_defaults_id = $this->product_model->updateMeasurementDefaults($measurement_defaults);
 
@@ -172,6 +173,7 @@ class Products extends CI_Controller {
 		if($this->uri->segment(3) && is_numeric($this->uri->segment(3)))
 		{
 			$this->data['ProductType'] = $this->getProductTypePresets($this->product_model->getProductType($this->uri->segment(3)));
+			$this->data['MeasurementList'] = $this->product_model->getMeasurementColumns();
 	
 			$this->load->view('Product/product_type_form', $this->data);
 
@@ -179,6 +181,7 @@ class Products extends CI_Controller {
 		else
 		{
 			$this->data['ProductType'] = $this->getProductTypePresets();
+			$this->data['MeasurementList'] = $this->product_model->getMeasurementColumns();
 	
 			$this->load->view('Product/product_type_form', $this->data);
 

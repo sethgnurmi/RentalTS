@@ -42,13 +42,38 @@
                 <div class="pf-c-divider" role="separator"></div>
                 <br>
               </div>
-              <div class="col-sm-6">
-                <label for="ProductTypeName">Product:</label>
-                <input class="pf-c-form-control" type="text" id="ProductTypeName" name="ProductTypeName" placeholder="Product Type" value="<?=$ProductType['ProductTypeName'];?>"/>
+              <div class="col-sm-4" style="margin-bottom:20px;">
+                <label for="StockItemProductType">Product Type:</label>
+                <select class="pf-c-form-control" id="StockItemProductType" name="StockItemProductType" <? if($StockItem['StockItemId'] > 0){?>disabled<?}?>>
+                  <? foreach($ProductTypeList as $key=>$productType){ ?>
+                  <option value="<?=$productType['product_type_id']?>"><?=$productType['product_type']?></option>
+                  <?}?>
+                </select>
               </div>
-              <div class="col-sm-6">
-                <label for="ProductPurchasePrice">Stock Quantity:</label>
-                <input class="pf-c-form-control" type="number" id="ProductPurchasePrice" name="ProductPurchasePrice" value="<?=$Product['ProductPurchasePrice'];?>"/>
+              <div class="col-sm-8" style="margin-bottom:20px;">
+                <label for="StockItemProductName">Product:</label>
+                <select class="pf-c-form-control" id="StockItemProductName" name="StockItemProductName" <? if($StockItem['StockItemId'] > 0){?>disabled<?}?>>
+                </select>
+              </div>
+              <div class="col-sm-4" style="margin-bottom:20px;">
+                <label for="StockItemStatus">Status:</label>
+                <select class="pf-c-form-control" id="StockItemStatus" name="StockItemStatus" disabled>
+                  <? foreach($StatusList as $key=>$status){ ?>
+                  <option value="<?=$status['status_id']?>"><?=$status['status_name']?></option>
+                  <?}?>
+                </select>
+              </div>
+              <div class="col-sm-5" style="margin-bottom:20px;">
+                <label for="StockItemCondition">Condition:</label>
+                <select class="pf-c-form-control" id="StockItemCondition" name="StockItemCondition" <? if($StockItem['StockItemId'] <= 0){?>disabled<?}?>>
+                  <? foreach($ConditionList as $key=>$condition){ ?>
+                  <option value="<?=$condition['condition_id']?>"><?=$condition['condition_name']?></option>
+                  <?}?>
+                </select>
+              </div>
+              <div class="col-sm-3" style="margin-bottom:20px;">
+                <label for="StockItemQuantity">Quantity:</label>
+                <input class="pf-c-form-control" type="number" id="StockItemQuantity" name="StockItemQuantity" min="1" value="<?=$StockItem['StockItemQuantity'];?>" <? if($StockItem['StockItemId'] > 0){?>disabled<?}?>>
               </div>
             </div>
           </div>
@@ -60,53 +85,23 @@
                 <div class="pf-c-divider" role="separator"></div>
                 <br>
               </div>
-              <div class="col-sm-4">
-                <center>
-                  <input type="checkbox" id="MeasurementHeight" name="MeasurementHeight">
-                  <label for="MeasurementHeight">Height</label>
-                </center>
+              <? foreach($MeasurementList as $key=>$val){ ?>
+              <div class="col-sm-4 MeasurementInput <?=$key?>MeasurementInput" style="margin-bottom:20px;">
+                <label for="Measurement<?=$val?>"><?=$val?>:</label>
+                <input class="pf-c-form-control" type="number" id="Measurement<?=$val?>" name="Measurement<?=$val?>" value="<?=$StockItem['Measurement'.$val]?>">
               </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementWaist" name="MeasurementWaist">
-                <label for="MeasurementWaist">Waist</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementChest" name="MeasurementChest">
-                <label for="MeasurementChest">Chest</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementLength" name="MeasurementLength">
-                <label for="MeasurementLength">Length</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementOutseam" name="MeasurementOutseam">
-                <label for="MeasurementOutseam">Outseam</label>
-                </center>
-              </div>
-              <div class="col-sm-4">
-                <center>
-                <input type="checkbox" id="MeasurementInseam" name="MeasurementInseam">
-                <label for="MeasurementInseam">Inseam</label>
-                </center>
-              </div>
+              <?}?>
             </div>
           </div>
         </div>
 
         <div class="row panel-container">
-          <div class="col-sm-12 panel-tile" style="height:80px;" id="ProductTypeSubmit">
+          <div class="col-sm-12 panel-tile" style="height:80px;" id="StockItemSubmit">
             <div class="row" style="height:100%;">
               <div class="col-sm-3"><p></p></div>
               <div class="col-sm-6" style="height:100%;">
                 <center>
-                  <button type="submit" name="SubmitProductTypeButton" class="pf-c-button pf-m-primary set-center">Submit Product Type</button>
+                  <button type="submit" name="SubmitStockItemButton" class="pf-c-button pf-m-primary set-center">Submit Stock Item</button>
                 </center>
               </div>
               <div class="col-sm-3" style="height:100%;">
@@ -130,6 +125,54 @@
 <script>
   $(document).ready(function(){
     
+    function updateProductInfo()
+    {
+
+      $.ajax({
+        url: '<?=base_url();?>Stock/getProductsByType',
+        method: 'POST',
+        data: {'product_type': $('#StockItemProductType').val()},
+        success: 
+          function(data){
+            data = JSON.parse(data);
+            
+            $('#StockItemProductName').html('');
+            $.each(data, function(key, product){
+              if(key != 'MeasurementDefaults')
+              {
+                $('#StockItemProductName').append(
+                  '<option value="' + product['product_id'] + '">' + product['product_name'] + '</option>'
+                  );
+              }
+            });
+
+            $('.MeasurementInput').show();
+            $.each(data['MeasurementDefaults'], function(key, val){
+              if(val != 1)
+                $('.' + key + 'MeasurementInput').hide();
+            });
+
+            $('#StockItemProductName').val('<?=$StockItem['StockItemProductName']?>');
+
+
+          },
+        error: 
+          function(data){
+            console.log(data);
+          }
+      });
+    }
+
+    $(document).on('change', '#StockItemProductType', function(){
+      updateProductInfo();
+    });
+
+    updateProductInfo();
+    
+    $('#StockItemProductType').val('<?=$StockItem['StockItemProductType']?>');
+    $('#StockItemStatus').val('<?=$StockItem['StockItemStatus']?>');
+    $('#StockItemCondition').val('<?=$StockItem['StockItemCondition']?>');
+
   });
 
 </script>
