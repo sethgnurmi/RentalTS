@@ -162,6 +162,21 @@ class order_model extends CI_Model {
         return $this->db->where('measurement_defaults_id', $measurement_defaults_id)->get('measurement_defaults')->result_array()[0];
     }
 
+    public function getAlterationsRequestsList()
+    {
+        return $this->db->select('*')->from('stock_items')
+            ->where('status', 6)
+            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
+            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
+            ->get()->result_array();
+    }
+
+    public function getEventFromStockItem($stock_item_id)
+    {
+        $line_item = $this->db->where('stock_item', $stock_item_id)->get('line_items')->result_array()[0];
+        return $this->db->where('event_id', $line_item['event_id'])->get('order_events')->result_array()[0];
+    }
+
     ////////////////////////
     /*  Update Functions  */
     ////////////////////////

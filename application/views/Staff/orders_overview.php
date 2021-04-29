@@ -25,7 +25,10 @@
           <? foreach($OrderList as $key => $Order){ ?>
           <div class="col-sm-4 panel-card-outer">
             <div class="panel-card">
-              <h4><strong>Order #<?=$Order['actor_id']?></strong><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Staff/Order/<?=$Order['actor_id']?>'">View</a></h4>
+              <? $status = "Active"; ?>
+              <? if($Order['order_status'] == 1){$status = "Shipped";}?>
+              <? if($Order['order_status'] == 2){$status = "Closed";}?>
+              <h4><strong>Order #<?=$Order['actor_id']?></strong> - <?=$status?><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Staff/Order/<?=$Order['actor_id']?>'">View</a></h4>
               <div class="pf-c-divider" role="separator" style="margin-top:10px;"></div>
               <p class="order-summary-p"><b><?=$Order['event_name'];?></b></p>
               <p class="order-summary-p"><b><?=$Order['actor_name'];?></b></p>

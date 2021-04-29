@@ -19,14 +19,14 @@
         <div class="row panel-header">
           <div class="panel-header-button" onclick="window.location='<?=base_url();?>Staff'">Staff Dashboard</div>
           <i class="fas fa-angle-right fa-1x"></i>
-          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Fulfillment'">Fulfillment</div>
+          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Returns'">Returns</div>
         </div>
         <div class="row panel-card-container" style="min-height:40px;">
-          <?=(count($OrderList) == 0) ? "<center><b>No pending orders to fulfill.</b></center>" : "" ?>
+          <?=(count($OrderList) == 0) ? "<center><b>No pending orders to return.</b></center>" : "" ?>
           <? foreach($OrderList as $key => $Order){ ?>
           <div class="col-sm-4 panel-card-outer">
             <div class="panel-card">
-              <h4><strong>Order #<?=$Order['actor_id']?></strong><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Fulfillment/Order/<?=$Order['actor_id']?>'">Update Fulfillment</a></h4>
+              <h4><strong>Order #<?=$Order['actor_id']?></strong><a class="inline-view" style="style:right;" onclick="window.location='<?=base_url();?>Returns/Order/<?=$Order['actor_id']?>'">Confirm Return</a></h4>
               <div class="pf-c-divider" role="separator" style="margin-top:10px;"></div>
               <p class="order-summary-p"><b><?=$Order['event_name'];?></b></p>
               <p class="order-summary-p"><b><?=$Order['actor_name'];?></b></p>
@@ -58,7 +58,7 @@
                 </table>
               </div>
               <div class="pf-c-divider" role="separator"></div>
-              <p style="float:right;"><strong>Order Status: <?=$fulfilled ? "Fulfilled" : "Incomplete" ?></strong></p>
+              <p style="float:right;"><strong>Order Status: Shipped</strong></p>
               <br>
             </div>
           </div>

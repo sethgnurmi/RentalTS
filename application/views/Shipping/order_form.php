@@ -142,7 +142,7 @@
         <div class="row panel-header">
           <div class="panel-header-button" onclick="window.location='<?=base_url();?>Staff'">Staff Dashboard</div>
           <i class="fas fa-angle-right fa-1x"></i>
-          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Fulfillment'">Fulfillment</div>
+          <div class="panel-header-button" onclick="window.location='<?=base_url();?>Shipping'">Shipping</div>
           <i class="fas fa-angle-right fa-1x"></i>
           <div class="panel-header-button">Order #<?=$Actor['actor_id']?></div>
         </div>
@@ -206,17 +206,6 @@
           </div>
         </div>
 
-        <form action="http://localhost/RentalTS/Fulfillment/Order/<?=$Actor['actor_id']?>" id="FulfillLineItemForm" method="post" accept-charset="utf-8">
-          <input type="hidden" id="FulfillLineItemInput" name="FulfillLineItemInput" value=""/>
-          <input type="hidden" id="FulfillStockItemInput" name="FulfillStockItemInput" value=""/>
-          <input type="hidden" id="AlterStockItemInput" name="AlterStockItemInput" value="0"/>
-        </form>
-
-        <form action="http://localhost/RentalTS/Fulfillment/Order/<?=$Actor['actor_id']?>" id="FulfillLineItemOptionsForm" method="post" accept-charset="utf-8">
-          <input type="hidden" id="FulfillLineItemInputOptions" name="FulfillLineItemInput" value=""/>
-          <input type="hidden" id="LineItemOption" name="LineItemOption" value=""/>
-        </form>
-
         <div class="row panel-container">
           <div class="col-sm-12 panel-tile panel-tile-xl" id="LineItemsInfo">
             <div class="row">
@@ -225,72 +214,35 @@
                 <div class="pf-c-divider" role="separator"></div>
                 <br>
               </div>
-              <div class="col-sm-7">
-                <p class="form-heading-md">Item List</p>
+              <div class="col-sm-3"><p></p></div>
+              <div class="col-sm-6">
                 <div class="scrollable" style="height:550px" id="LineItemList">
                   <? $totalPrice = 0; ?>
                   <? foreach($LineItemsList as $key => $lineItem){?>
                     <div class="row line-item-in-list" data-id="<?=$lineItem['line_item_id'];?>">
                       <div class="col-sm-3 line-item-detail"><strong><?=$lineItem['product_type'];?>:</strong></div>
                       <div class="col-sm-6 line-item-detail"><strong></strong><?=$lineItem['product_name'];?></div>
-                      <div class="col-sm-3 line-item-detail"><strong>Price:</strong> $<?=number_format($lineItem['purchase'] == 1 ? $lineItem['purchase_price'] : $lineItem['rental_price'], 2)?></div>
+                      <div class="col-sm-3 line-item-detail"><strong>Stock #:</strong> <?=$lineItem['stock_item']?></div>
                       <div class="pf-c-divider" role="separator"></div>
-                      <div class="col-sm-3 line-item-detail"><center><p class="view-a viewLineItemMeasurementsButton">Measurements</p></center></div>
-                      <div class="col-sm-4 line-item-detail"><center><p class="view-a viewCompleteDetailsButton">Complete Details</p></center></div>
-                      <? if($lineItem['fulfillment_status'] == 0){?>
-                      <div class="col-sm-5 line-item-detail"><center><p class="view-a fulfillLineItemButton" data-status="0">Fulfill</p></center></div>
-                      <?} elseif($lineItem['fulfillment_status'] == 1){ ?>
-                      <div class="col-sm-5 line-item-detail"><center><p class="view-a fulfillLineItemButton" data-status="1">Undo Fulfillment</p></center></div>
-                      <?} elseif($lineItem['fulfillment_status'] == 2){ ?>
-                      <div class="col-sm-5 line-item-detail"><center><p class="view-a fulfillLineItemButton" data-status="2">Cancel Alterations Request</p></center></div>
-                      <?}?>
+                      <div class="col-sm-6 line-item-detail"><center><p class="view-a viewLineItemMeasurementsButton">Measurements</p></center></div>
+                      <div class="col-sm-6 line-item-detail"><center><p class="view-a viewCompleteDetailsButton">Complete Details</p></center></div>
                     </div>
                     <? $totalPrice += $lineItem['purchase'] == 1 ? $lineItem['purchase_price'] : $lineItem['rental_price'] ?>
                   <?}?>
                 </div>
                 <br>
-                <br>
-                <div class="pf-c-divider" role="separator"></div>
-                <br>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <p class="form-heading-md">Total Order Cost: $<?=number_format($totalPrice); ?></p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-5">
-                <form action="http://localhost/RentalTS/Fulfillment/Order/<?=$Actor['actor_id']?>" id="FulfillmentForm" method="post" accept-charset="utf-8">
-                  <p class="form-heading-md">Add New Line Item</p>
-                  <div class="row">
-                    <input type="hidden" id="LineItemId"/>
-                    <div class="col-sm-4">
-                      <label for="LineItemType">Item Type:</label>
-                      <input type="text" class="pf-c-form-control" id="LineItemType" disabled>
-                    </div>
-                    <div class="col-sm-8">
-                      <label for="LineItemProduct">Item:</label>
-                      <input type="text" class="pf-c-form-control" id="LineItemProduct" disabled>
-                    </div>
-                  </div>
-                  <br>
-                  <div class="row">
-                    <div class="col-sm-12" id="FulfillmentProductStock">
-                      <label>Product Stock:</label>
-                      <div class="scrollable" style="height:400px" id="ScrollingStockWindow">
-                      </div>
-                      <div class="row line-item-in-list" data-id="" id="ExampleStockItem" style="display:none;">
-                        <div class="col-sm-12 line-item-detail stock-item-name"></div>
-                        <div class="pf-c-divider" role="separator"></div>
-                        <div class="col-sm-6 line-item-detail"><center><p class="view-a viewStockItemMeasurementsButton">Measurements</p></center></div>
-                        <div class="col-sm-6 line-item-detail"><center><p class="view-a fulfillStockItemButton">Fulfill</p></center></div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
         </div>
+
+        <form action="http://localhost/RentalTS/Shipping/Order/<?=$Actor['actor_id']?>" id="ConfirmOrderShippingForm" method="post" accept-charset="utf-8">
+        <div class="row panel-container">
+          <div class="col-sm-12 panel-tile" style="height:80px;" id="ShippingSubmit">
+            <button type="submit" name="ConfirmOrderShipping" class="pf-c-button pf-m-primary set-center">Confirm Order Shipping</button>
+          </div>
+        </div>
+        </form>
 
         <div class="row panel-container-bottom"></div>
       </div>
@@ -307,73 +259,6 @@
     var itemCounter = 0;
 
 
-    $(document).on('click', '.fulfillLineItemButton', function(){
-      var id = $(this).parents('.line-item-in-list').data('id');
-      if($(this).data('status') == 0)
-      {
-        $('#LineItemId').val('');
-
-        $.ajax({
-          url: '<?=base_url();?>Fulfillment/getLineItemDetailsAndMore',
-          method: 'POST',
-          data: {'line_item_id': id},
-          success: 
-            function(data){
-              $('#LineItemId').val(id);
-              data = JSON.parse(data);
-              console.log(data);
-              $('#LineItemType').val(data['product_type']);
-              $('#LineItemProduct').val(data['product_name']);
-              $('#ScrollingStockWindow').html('');
-              data['ApplicableStockItems'].forEach(function(stock_item){
-                var new_stock_item = $('#ExampleStockItem').clone();
-                $(new_stock_item).find('.stock-item-name').html('<strong>' + stock_item['product_name'] + '</strong>')
-                $(new_stock_item).attr('data-id', stock_item['stock_item_id']);
-                if(stock_item['AlterationsRequired'] == true)
-                {
-                  $(new_stock_item).find('.fulfillStockItemButton').html('Request Alteration');
-                  $(new_stock_item).find('.fulfillStockItemButton').attr('data-alterations', 1);
-                }
-                else
-                {
-                  $(new_stock_item).find('.fulfillStockItemButton').html('Fulfill');
-                  $(new_stock_item).find('.fulfillStockItemButton').attr('data-alterations', 0);
-                }
-                $(new_stock_item).show();
-                $(new_stock_item).clone().appendTo('#ScrollingStockWindow');
-              });
-            },
-          error: 
-            function(data){
-              console.log(data);
-            }
-        });
-      }
-      else if($(this).data('status') == 1)
-      {
-        $('#FulfillLineItemInputOptions').val(id);
-        $('#LineItemOption').val('1')
-        $('#FulfillLineItemOptionsForm').submit();
-      }
-      else if($(this).data('status') == 2)
-      {
-        $('#FulfillLineItemInputOptions').val(id);
-        $('#LineItemOption').val('2')
-        $('#FulfillLineItemOptionsForm').submit();
-      }
-    });
-
-    $(document).on('click','.fulfillStockItemButton', function(){
-      var id = $(this).parents('.line-item-in-list').data('id');
-      $('#FulfillLineItemInput').val($('#LineItemId').val());
-      $('#FulfillStockItemInput').val(id);
-
-      if($(this).parents('.line-item-in-list').find('.fulfillStockItemButton').data('alterations') == 1)
-      {
-        $('#AlterStockItemInput').val('1');
-      }
-      $('#FulfillLineItemForm').submit();
-    });
 
 
     $(document).on('click','#ViewActorMeasurements', function(){

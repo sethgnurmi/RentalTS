@@ -1,5 +1,5 @@
 <?php
-class fulfillment_model extends CI_Model {
+class shipping_model extends CI_Model {
 
     /////////////////////
     /*  Get Functions  */
@@ -109,6 +109,29 @@ class fulfillment_model extends CI_Model {
     ////////////////////////
     /*  Update Functions  */
     ////////////////////////
+
+    public function updateActor($data)
+    {
+        $actor_id = -1;
+
+        if(isset($data['actor_id']))
+        {
+            $actor_id = $data['actor_id'];
+            unset($data['actor_id']);
+        }
+
+        if($actor_id > 0)
+        {
+            $this->db->where('actor_id', $actor_id);
+            $this->db->update('actors', $data);
+            return $actor_id;
+        }
+        else
+        {
+            $this->db->insert('actors', $data);
+            return $this->db->insert_id();
+        }
+    }
 
     public function updateProduct($data)
     {

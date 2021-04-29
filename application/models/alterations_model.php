@@ -1,5 +1,5 @@
 <?php
-class fulfillment_model extends CI_Model {
+class alterations_model extends CI_Model {
 
     /////////////////////
     /*  Get Functions  */
@@ -14,39 +14,29 @@ class fulfillment_model extends CI_Model {
             ->get()->result_array()[0];
     }
 
-    public function getStockItemList()
+    public function getLineItem($id)
     {
-        return $this->db->select('*')->from('stock_items')
-            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
-            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
-            ->get()->result_array();
+        return $this->db->select('*')->from('line_items')
+            ->join('products', 'products.product_id = line_items.product', 'inner')
+            ->join('product_types', 'product_types.product_type_id = products.product_type', 'inner')
+            ->join('measurements', 'measurements.measurement_id = line_items.measurements', 'inner')
+            ->where('line_item_id', $id)->get()->result_array()[0];
+
     }
 
-    public function getProduct($id)
+    public function getLineItemFromStockItem($id)
     {
-        return $this->db->where('product_id', $id)->get('products')->result_array()[0];
+        return $this->db->select('*')->from('line_items')
+            ->join('products', 'products.product_id = line_items.product', 'inner')
+            ->join('product_types', 'product_types.product_type_id = products.product_type', 'inner')
+            ->join('measurements', 'measurements.measurement_id = line_items.measurements', 'inner')
+            ->where('stock_item', $id)->get()->result_array()[0];
+
     }
 
     public function getProductType($id)
     {
         return $this->db->where('product_type_id', $id)->get('product_types')->result_array()[0];
-    }
-
-    public function getProductTypeList()
-    {
-        return $this->db->get('product_types')->result_array();
-    }
-
-    public function getProductList()
-    {
-        return $this->db->select('*')->from('products')
-            ->join('product_types', 'product_types.product_type_id = products.product_type')
-            ->get()->result_array();
-    }
-
-    public function getProductsByType($type)
-    {
-        return $this->db->where('product_type', $type)->get('products')->result_array();
     }
 
     public function getMeasurementColumns()
@@ -78,32 +68,18 @@ class fulfillment_model extends CI_Model {
         return $this->db->get('conditions')->result_array();
     }
 
-    public function getOrderList($event=false)
+    public function getAlterationsRequestsList()
     {
-        if(!$event)
-        {
-            return $this->db->select('*')->from('actors')
-                ->join('order_events', 'order_events.event_id = actors.event_id', 'inner')
-                ->get()->result_array();
-        }
-        else
-        {
-            return $this->db->select('*')->from('actors')
-                ->where('event_id', $event)
-                ->join('order_events', 'order_events.event_id = actors.event_id', 'inner')
-                ->get()->result_array();
-        }
+        return $this->db->select('*')->from('stock_items')
+            ->where('status', 6)
+            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
+            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
+            ->get()->result_array();
     }
 
-    public function getApplicableStockItems($product_id)
-    {        
-        $condition = array('stock_items.product_id' => $product_id, 'stock_items.status' => 1);
-        
-        return $this->db->select('*')->from('stock_items')
-            ->where($condition)
-            ->join('measurements', 'measurements.measurement_id = stock_items.measurement_id', 'inner')
-            ->join('products', 'products.product_id = stock_items.product_id', 'inner')
-            ->get()->result_array();
+    public function getMeasurements($measurements_id)
+    {
+        return $this->db->where('measurement_id', $measurements_id)->get('measurements')->result_array()[0];
     }
 
     ////////////////////////
@@ -160,15 +136,15 @@ class fulfillment_model extends CI_Model {
     {
         $measurements_id = -1;
 
-        if(isset($data['measurements_id']))
+        if(isset($data['measurement_id']))
         {
-            $measurements_id = $data['measurements_id'];
-            unset($data['measurements_id']);
+            $measurements_id = $data['measurement_id'];
+            unset($data['measurement_id']);
         }
 
         if($measurements_id > 0)
         {
-            $this->db->where('measurements_id', $measurements_id);
+            $this->db->where('measurement_id', $measurements_id);
             $this->db->update('measurements', $data);
             return $measurements_id;
         }

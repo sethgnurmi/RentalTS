@@ -148,7 +148,116 @@ class Staff extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('Staff/staff_dashboard');
+		$taskList = array();
+		$orderList = $this->order_model->getOrderList();
+		$alterationsList = $this->order_model->getAlterationsRequestsList();
+
+		foreach($orderList as $order)
+		{
+			if($order['order_status'] != 2)
+			{
+				$LineItemList = $this->order_model->getLineItemsList($order['actor_id']);
+				$fulfilled = true;
+	
+				foreach($LineItemList as $lineItem)
+				{
+					if($lineItem['fulfillment_status'] != 1)
+					{
+						$fulfilled = false;
+					}
+				}
+
+				if(!$fulfilled)
+				{
+					$event = $this->order_model->getEvent($order['event_id']);
+					
+		
+					$task = array();
+					$task['TaskTitle'] = "Fulfill Order #".$order['actor_id'];
+					$task['FulfillmentDeadline'] = date('m-d-Y', strtotime($event['fulfillment_deadline']));
+					$task['DaysRemaining'] = round((strtotime($event['fulfillment_deadline']) - time()) / (60 * 60 * 24));
+					$task['Department'] = 1;
+					$task['DepartmentName'] = 'Fulfillment';
+					$task['ViewURL'] = base_url().'Fulfillment/Order/'.$order['actor_id'];
+		
+					$taskList[] = $task;
+				}
+				elseif($fulfilled && $order['order_status'] == 1)
+				{
+					$event = $this->order_model->getEvent($order['event_id']);
+					
+		
+					$task = array();
+					$task['TaskTitle'] = "Return Order #".$order['actor_id'];
+					$task['Department'] = 4;
+					$task['DepartmentName'] = 'Returns';
+					$task['ViewURL'] = base_url().'Returns/Order/'.$order['actor_id'];
+
+					$task['IsReturns'] = true;
+					$task['ReturnDeadline'] = date('m-d-Y', strtotime("+7 day", strtotime($event['production_date'])));
+					$task['DaysRemaining'] = round((strtotime("+7 day", strtotime($event['production_date'])) - time()) / (60 * 60 * 24));
+
+
+		
+					$taskList[] = $task;
+
+				}
+			}
+			
+		}
+
+		foreach($alterationsList as $alterationStockItem)
+		{
+			$event = $this->order_model->getEventFromStockItem($alterationStockItem['stock_item_id']);
+			
+			$task = array();
+			$task['TaskTitle'] = "Alter Stock Item #".$alterationStockItem['stock_item_id'];
+			$task['FulfillmentDeadline'] = date('m-d-Y', strtotime($event['fulfillment_deadline']));
+			$task['DaysRemaining'] = round((strtotime($event['fulfillment_deadline']) - time()) / (60 * 60 * 24));
+			$task['Department'] = 2;
+			$task['DepartmentName'] = 'Alterations';
+			$task['ViewURL'] = base_url().'Alterations/Request/'.$alterationStockItem['stock_item_id'];
+
+			$taskList[] = $task;
+		}
+
+		foreach($orderList as $key => $order)
+		{
+			$orderList[$key]['LineItemList'] = $this->order_model->getLineItemsList($order['actor_id']);
+			$fulfilled = true;
+
+			foreach($orderList[$key]['LineItemList'] as $lineItem)
+			{
+				if($lineItem['fulfillment_status'] != 1)
+				{
+					$fulfilled = false;
+				}
+			}
+
+			if($fulfilled && !$order['order_status'] > 0)
+			{
+				$event = $this->order_model->getEvent($order['event_id']);
+				
+				$task = array();
+				$task['TaskTitle'] = "Ship Order #".$order['actor_id'];
+				$task['FulfillmentDeadline'] = date('m-d-Y', strtotime($event['fulfillment_deadline']));
+				$task['DaysRemaining'] = round((strtotime($event['fulfillment_deadline']) - time()) / (60 * 60 * 24));
+				$task['Department'] = 3;
+				$task['DepartmentName'] = 'Shipping';
+				$task['ViewURL'] = base_url().'Shipping/Order/'.$order['actor_id'];
+	
+				$taskList[] = $task;
+			}
+		}
+
+		usort($taskList, function($item1, $item2){
+			return $item1['DaysRemaining'] <=> $item2['DaysRemaining'];
+		});
+
+		$this->data['TaskList'] = $taskList;
+
+
+		$this->load->view('Staff/staff_dashboard', $this->data);
 	}
 	
 	public function Events()

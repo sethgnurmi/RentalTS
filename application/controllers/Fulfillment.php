@@ -73,6 +73,42 @@ class Fulfillment extends CI_Controller {
 		}
 	}
 
+	public function getLineItemDetailsAndMore()
+	{
+		if($this->input->post() && $this->input->post('line_item_id'))
+		{
+			$lineItem = $this->order_model->getLineItem($this->input->post('line_item_id'));
+			$lineItem['MeasurementDefaults'] = $this->order_model->getMeasurementDefaultsFromProductType($lineItem['product_type_id']);
+			$lineItem['ApplicableStockItems'] = $this->fulfillment_model->getApplicableStockItems($lineItem['product_id']);
+			foreach($lineItem['ApplicableStockItems'] as $key => $stockItem)
+			{
+				$lineItem['ApplicableStockItems'][$key]['AlterationsRequired'] = false;
+				foreach($lineItem['MeasurementDefaults'] as $keyMeasurment => $valMeasurement)
+				{
+					if($valMeasurement == 1)
+					{
+						if(strcasecmp($keyMeasurment, 'measurement_defaults_id') != 0 && $lineItem[$keyMeasurment] != $stockItem[$keyMeasurment])
+						{
+							$lineItem['ApplicableStockItems'][$key]['AlterationsRequired'] = true;
+						}
+					}
+				}
+			}
+			echo json_encode($lineItem);
+		}
+
+	}
+
+	public function getStockItemDetails()
+	{
+		if($this->input->post() && $this->input->post('stock_item_id'))
+		{
+			$stockItem = $this->fulfillment_model->getStockItem($this->input->post('stock_item_id'));
+			$stockItem['MeasurementDefaults'] = $this->order_model->getMeasurementDefaultsFromProductType($stockItem['product_type']);
+			echo json_encode($stockItem);
+		}
+	}
+
 	//////////////////////
 	/*  View Functions  */
 	//////////////////////
@@ -80,24 +116,30 @@ class Fulfillment extends CI_Controller {
 	public function index()
 	{
 		$orderList = $this->order_model->getOrderList();
+		$finalOrderList = array();
 
 		foreach($orderList as $key => $order)
 		{
-			$orderList[$key]['Emptor'] = $this->order_model->getContact($order['emptor_contact']);
-			$orderList[$key]['Contact'] = $this->order_model->getContact($order['contact_contact']);
-			$orderList[$key]['LineItemList'] = $this->order_model->getLineItemsList($order['actor_id']);
-			$itemListTotal = 0;
-			foreach($orderList[$key]['LineItemList'] as $lineItemKey => $lineItem)
+			if(!$order['order_status'] > 0)
 			{
-				if($lineItem['purchase'] == 1)
-					$orderList[$key]['LineItemList'][$lineItemKey]['LineItemTotal'] = $lineItem['purchase_price'];
-				else
-				$orderList[$key]['LineItemList'][$lineItemKey]['LineItemTotal'] = $lineItem['rental_price'];
 
-
+				$orderList[$key]['Emptor'] = $this->order_model->getContact($order['emptor_contact']);
+				$orderList[$key]['Contact'] = $this->order_model->getContact($order['contact_contact']);
+				$orderList[$key]['LineItemList'] = $this->order_model->getLineItemsList($order['actor_id']);
+				$itemListTotal = 0;
+				foreach($orderList[$key]['LineItemList'] as $lineItemKey => $lineItem)
+				{
+					if($lineItem['purchase'] == 1)
+						$orderList[$key]['LineItemList'][$lineItemKey]['LineItemTotal'] = $lineItem['purchase_price'];
+					else
+					$orderList[$key]['LineItemList'][$lineItemKey]['LineItemTotal'] = $lineItem['rental_price'];
+	
+	
+				}
+				$finalOrderList[] = $orderList[$key];
 			}
 		}
-		$this->data['OrderList'] = $orderList;
+		$this->data['OrderList'] = $finalOrderList;
 
 		$this->load->view('Fulfillment/orders_overview', $this->data);
 	}
@@ -110,14 +152,37 @@ class Fulfillment extends CI_Controller {
 			$actor = $this->order_model->getActor($this->uri->segment(3));
 			$event = $this->order_model->getEvent($actor['event_id']);
 			$measurements = $this->order_model->getMeasurements($actor['measurements']);
+			
 
 			if($this->input->post())
 			{
 
 				$data = $this->input->post();
-				if(isset($data['DeleteLineItemInput']))
+				
+				if(isset($data['FulfillLineItemInput']))
 				{
-					//$this->order_model->deleteLineItem($data['DeleteLineItemInput']);
+					if(isset($data['AlterStockItemInput']))
+					{
+						if($data['AlterStockItemInput'] == 1)
+						{
+							$this->fulfillment_model->requestAlterations($data['FulfillLineItemInput'], $data['FulfillStockItemInput']);
+						}
+						else
+						{
+							$this->fulfillment_model->fulfillLineItem($data['FulfillLineItemInput'], $data['FulfillStockItemInput']);
+						}
+					}
+					elseif(isset($data['LineItemOption']))
+					{
+						if($data['LineItemOption'] == 1)
+						{
+							$this->fulfillment_model->undoFulfillment($data['FulfillLineItemInput']);
+						}
+						elseif($data['LineItemOption'] == 2)
+						{
+							$this->fulfillment_model->cancelAlterationsRequest($data['FulfillLineItemInput']);
+						}
+					}
 				}	
 				else
 				{

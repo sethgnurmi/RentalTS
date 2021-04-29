@@ -224,7 +224,7 @@
               </div>
               <div class="col-sm-7">
                 <p class="form-heading-md">Item List</p>
-                <div class="col-sm-12">
+                <div class="col-sm-12" hidden>
                   <div class="col-sm-2"></div>
                   <div class="col-sm-6" style="white-space: nowrap; display: inline-block;">
                     <label for="TemplateSelect" style="padding-right: 5px;">Template:</label>
@@ -235,8 +235,6 @@
                     </select>
                   </div>
                 </div>
-                <br>
-                <br>
                 <div class="scrollable" style="height:550px" id="LineItemList">
                   <? $totalPrice = 0; ?>
                   <? foreach($LineItemsList as $key => $lineItem){?>
